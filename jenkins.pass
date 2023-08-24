@@ -1,0 +1,30 @@
+get password for slave machine create playbook 
+
+task:
+     how to get a password for slave machine in the master machine create a playbook get a password
+
+jenkinspassword.yml
+
+- name: Get Jenkins Password
+  hosts: your_slave_machine
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Retrieve Jenkins Password
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: jenkins_password
+      changed_when: false
+
+    - name: Display Jenkins Password
+      debug:
+        var: jenkins_password.stdout
+
+how to run a playbook ???
+
+ansible-playbook -i slaves.txt jenkinspassword.yml --syntax-check
+
+how check the error play book use ??
+
+--syntax-check
+
+
