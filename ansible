@@ -1,0 +1,12 @@
+ansible <host-pattern> -m ping
+ansible <host-pattern> -m command -a "<command>"
+ansible <host-pattern> -m shell -a "<command>"
+ansible <host-pattern> -m copy -a "src=<source_file> dest=<destination>"
+ansible <host-pattern> -m copy -a "src=<source_file> dest=<destination>"
+ansible <host-pattern> -m fetch -a "src=<source_file_on_remote> dest=<destination>"
+ansible <host-pattern> -m fetch -a "src=<source_file_on_remote> dest=<destination>"
+ansible <host-pattern> -m file -a "<file_operation>"
+ansible <host-pattern> -m service -a "<service_operation>"
+ansible <host-pattern> -m setup
+ansible <host-pattern> -m raw -a "<command>"
+
