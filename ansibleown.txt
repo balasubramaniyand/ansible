@@ -1,0 +1,77 @@
+           ansible playbook
+----------------------------------------------------------------------
+
+1: yum update use this modules :
+ 
+ name: Upgrade all packages
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+
+2. yum install package use this modules ---> ansible yum install examples:
+
+ - name: Install the latest version of Apache
+  ansible.builtin.yum:
+    name: httpd
+    state: latest
+3. get_url package use this modules --> ansible get_url install examples  --> apache tomcat
+ 
+  - name: Download foo.conf
+  ansible.builtin.get_url:          ----------->>>>>>>>> https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html#examples
+    url: http://example.com/path/file.conf
+    dest: /etc/foo.conf
+    mode: '0440'
+
+4. unzip package use this modules --> install unzip ---> url -->https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html#examples
+   
+      - name: Unarchive a file that is already on the remote machine
+  ansible.builtin.unarchive:
+    src: /tmp/foo.zip
+    dest: /usr/local/bin
+    remote_src: yes
+
+5. template use this module -->https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html#examples
+   
+  - name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: /mytemplates/foo.j2
+    dest: /etc/file.conf
+    owner: bin
+    group: wheel
+    mode: '0644'
+
+ansible tomcat 
+
+- hosts: all
+  remote_user: ec2-user
+  become: true
+  tasks: 
+    - name: Yum Update Package
+      yum:
+       name: '*'
+       state: latest
+
+    - name: Install java
+      yum:
+       name: java-1.8.0-openjdk
+
+    - name: Download Apache
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz
+        dest: /usr/local
+        mode: '0777'
+      
+    - name: Unzip Download
+      unarchive:
+        src: /usr/local/apache-tomcat-9.0.76.tar.gz
+        dest: /usr/local
+        remote_src: yes
+        mode: '0777'
+  
+    - name: Going to start tomact
+      shell: nohup /usr/local/apache-tomact-9.0.76.tar.gz/bin/startup.sh &
+
+
+
+
+
