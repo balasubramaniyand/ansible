@@ -1,0 +1,29 @@
+- hosts: all
+  remote_user: ec2-user
+  become: true
+  tasks: 
+   - name: Yum Update Package
+     yum:
+       name: '*'
+       state: latest
+
+   - name: Install java
+     yum:
+       name: java-1.8.0-openjdk
+
+   - name: Download Apache
+     get_url:
+       url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz
+       dest: /usr/local
+       mode: '0777'
+      
+   - name: Unzip Download
+     unarchive:
+       src: /usr/local/apache-tomcat-9.0.76.tar.gz
+       dest: /usr/local
+       remote_src: yes
+       mode: '0777'
+  
+   - name: Going to start Tomcat
+     shell: nohup /usr/local/apache-tomcat-9.0.76/bin/startup.sh &
+
