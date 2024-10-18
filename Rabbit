@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    ports:
+      - "4201:5672"
+      - "4200:15672"
+      - "5671:5671"  # SSL port for RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: iopex
+      RABBITMQ_DEFAULT_PASS: iopex@123
+    volumes:
+      - /path/to/certs:/etc/rabbitmq/certs
+    command: |
+      rabbitmq-server
+      --listeners.ssl.default 5671
+      --ssl_options.cacertfile /etc/rabbitmq/certs/ca_certificate.pem
+      --ssl_options.certfile /etc/rabbitmq/certs/server_certificate.pem
+      --ssl_options.keyfile /etc/rabbitmq/certs/server_key.pem
+      --ssl_options.verify verify_peer
+      --ssl_options.fail_if_no_peer_cert true
